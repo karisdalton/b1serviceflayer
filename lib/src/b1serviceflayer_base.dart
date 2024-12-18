@@ -28,7 +28,7 @@ class B1Connection {
   bool get isSessionExpired =>
       (DateTime.now().millisecondsSinceEpoch -
           loginTime!.millisecondsSinceEpoch) >=
-      (b1session.sessionTimeout * 60 * 1000);
+      (b1session.sessionTimeout! * 60 * 1000);
 
   _setSession(Session session, String cookies) {
     _b1session = session;
@@ -51,6 +51,7 @@ class B1ServiceLayer {
   B1Error? _b1Error;
 
   bool get hasError => b1Error != null;
+
   int get exetutionMilliseconds => _exetutionMilliseconds;
   late int _exetutionMilliseconds;
 
@@ -61,11 +62,20 @@ class B1ServiceLayer {
   Future<B1ServiceLayer> loginAsync() async {
     _b1Error = null;
     _queryUrl = b1connection.serverUrl + 'Login';
+
     var postBody =
         '{"UserName":"${b1connection.userName}", "Password":"${b1connection.password}", "CompanyDB":"${b1connection.companyDB}"}';
+
     var start = DateTime.now().millisecondsSinceEpoch;
-    _queryResponse = await http.post(Uri.parse(queryUrl), body: postBody);
+
+    _queryResponse = await http.post(
+      Uri.parse(queryUrl),
+      body: postBody,
+      headers: {'Content-Type': 'application/json'},
+    );
+
     _exetutionMilliseconds = DateTime.now().millisecondsSinceEpoch - start;
+
     if (queryResponse.statusCode == HttpStatus.ok) {
       b1connection._setSession(Session.fromJson(queryResponse.body),
           queryResponse.headers['set-cookie']!);
@@ -95,10 +105,14 @@ class B1ServiceLayer {
     } else {
       _queryUrl = b1connection.serverUrl + 'Logout';
       _b1Error = null;
+
       var start = DateTime.now().millisecondsSinceEpoch;
+
       _queryResponse = await http.get(Uri.parse(queryUrl),
           headers: {HttpHeaders.cookieHeader: b1connection.b1Cookies});
+
       _exetutionMilliseconds = DateTime.now().millisecondsSinceEpoch - start;
+
       if (queryResponse.statusCode == HttpStatus.noContent) {
         b1connection._loginTime = null; //Mark logged out
         return true;
@@ -121,10 +135,14 @@ class B1ServiceLayer {
     }
     _queryUrl = b1connection.serverUrl + queryString;
     _b1Error = null;
+
     var start = DateTime.now().millisecondsSinceEpoch;
+
     _queryResponse = await http.get(Uri.parse(queryUrl),
         headers: {HttpHeaders.cookieHeader: b1connection.b1Cookies});
+
     _exetutionMilliseconds = DateTime.now().millisecondsSinceEpoch - start;
+
     if (queryResponse.statusCode == HttpStatus.ok) {
       return queryResponse.body;
     } else {
@@ -147,11 +165,18 @@ class B1ServiceLayer {
     }
     _queryUrl = b1connection.serverUrl + entityName;
     _b1Error = null;
+
     var start = DateTime.now().millisecondsSinceEpoch;
-    _queryResponse = await http.post(Uri.parse(queryUrl),
+
+    _queryResponse = await http.post(
+        Uri.parse(
+          queryUrl,
+        ),
         body: entityJSON,
         headers: {HttpHeaders.cookieHeader: b1connection.b1Cookies});
+
     _exetutionMilliseconds = DateTime.now().millisecondsSinceEpoch - start;
+
     if (queryResponse.statusCode == HttpStatus.created) {
       return queryResponse.body;
     } else {
@@ -173,11 +198,15 @@ class B1ServiceLayer {
     }
     _queryUrl = b1connection.serverUrl + entityName;
     _b1Error = null;
+
     var start = DateTime.now().millisecondsSinceEpoch;
+
     _queryResponse = await http.patch(Uri.parse(queryUrl),
         body: entityJSON,
         headers: {HttpHeaders.cookieHeader: b1connection.b1Cookies});
+
     _exetutionMilliseconds = DateTime.now().millisecondsSinceEpoch - start;
+
     if (queryResponse.statusCode == HttpStatus.noContent) {
     } else {
       _b1Error = B1Error.fromJson(queryResponse.body)
@@ -194,11 +223,15 @@ class B1ServiceLayer {
       await loginAsync();
     }
     _queryUrl = b1connection.serverUrl + entityName;
+
     var start = DateTime.now().millisecondsSinceEpoch;
+
     _queryResponse = await http.delete(Uri.parse(queryUrl),
         headers: {HttpHeaders.cookieHeader: b1connection.b1Cookies});
+
     _exetutionMilliseconds = DateTime.now().millisecondsSinceEpoch - start;
     _b1Error = null;
+
     if (queryResponse.statusCode == HttpStatus.noContent) {
     } else {
       _b1Error = B1Error.fromJson(queryResponse.body)

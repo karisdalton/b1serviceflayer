@@ -44,9 +44,14 @@ class Error {
   String toJson() => json.encode(toMap());
 
   factory Error.fromMap(Map<String, dynamic> json) => Error(
-        code: json['code'],
-        message:
-            json['message'] == null ? null : Message.fromMap(json['message']),
+        code: json['code'] is int
+            ? json['code']
+            : int.tryParse(json['code'].toString()) ?? 0,
+        message: json['message'] == null
+            ? null
+            : (json['message'] is Map<String, dynamic>
+                ? Message.fromMap(json['message'])
+                : Message(value: json['message'].toString())),
       );
   Map<String, dynamic> toMap() => {
         'code': code,

@@ -6,3 +6,7 @@
 ## 1.0.1
 
 -   Update meta version compatibility with flutter sdk
+
+## 1.0.2
+
+-   Error fixes in the `quicktype_error.dart` and `quicktype_session.dart` files to allow successful API calls for CRUD requests.
