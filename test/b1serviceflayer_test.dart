@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:b1serviceflayer/b1serviceflayer.dart';
+import 'package:b1servicelayer/b1serviceflayer.dart';
 import 'logindetailsfortests.dart' as conf;
 
 void main() {

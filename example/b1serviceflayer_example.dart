@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:b1serviceflayer/b1serviceflayer.dart';
+import 'package:b1servicelayer/b1serviceflayer.dart';
 
 main() async {
   const url = 'http://hana93srv:50001/b1s/v1/';

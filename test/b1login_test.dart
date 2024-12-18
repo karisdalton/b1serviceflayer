@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:test/test.dart';
 import 'package:http/http.dart' as http;
-import 'package:b1serviceflayer/b1serviceflayer.dart';
+import 'package:b1servicelayer/b1serviceflayer.dart';
 import 'logindetailsfortests.dart' as conf;
 
 void main() {

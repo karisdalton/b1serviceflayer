@@ -1,7 +1,7 @@
-name: b1serviceflayer
+name: b1servicelayer
 description: A generic utility package for SAP Business One Service Layer client API programming
-version: 1.0.3
-homepage: https://github.com/nemethmik/b1serviceflayer
+version: 1.0.0
+homepage: https://github.com/karisdalton/b1serviceflayer.git
 
 environment:
     sdk: "3.6.0"
@@ -10,7 +10,7 @@ dependencies:
     #  path: ^1.6.0
     intl: ^0.20.1
     http: ^1.2.2
-    meta: ^1.16.0
+    meta: ^1.15.0
 
 dev_dependencies:
     pedantic: ^1.11.1
