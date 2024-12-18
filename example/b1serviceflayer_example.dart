@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:b1servicelayer/b1serviceflayer.dart';
 
 main() async {
-  const url = 'http://172.16.1.10:50001/b1s/v2/';
+  const url = 'http://hanasrv:50001/b1s/v2/';
   const user = 'manager';
-  const pwd = '@H1ghl@nd5';
-  const companyDB = 'HIGHLANDS';
+  const pwd = '@demopwd';
+  const companyDB = 'SBODEMO';
   final b1s = B1ServiceLayer(
       B1Connection(
           serverUrl: url, companyDB: companyDB, userName: user, password: pwd),
